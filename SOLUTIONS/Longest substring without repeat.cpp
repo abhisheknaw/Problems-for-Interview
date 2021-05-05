@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 /*
  Brute Force                               
 Complexity Analysis:
@@ -41,6 +40,69 @@ int length(string str)
 	return res;
 }
 */
+
+/*                              
+Complexity Analysis:
+Time Complexity: O(2 N) 
+Space Compelxity: O(N), No extra space required.
+*/
+/*
+int length(string str)
+{
+	int n= str.length();
+	unordered_set<char>m;
+	int len=0;
+
+	int l=0;
+	int r=0;
+
+	while(r<n)
+	{
+		if(m.find(str[r]) != m.end())
+		{
+			m.erase(str.at(l));
+			l++;
+			
+		}
+		else
+		{
+			m.insert(str[r]);
+			len=max(len,r-l+1);
+			r++;
+			
+		}
+	}
+	return len;
+}
+*/
+
+  
+/*
+ Sliding Window Optimized(Single pass)                           verdict : Accepted
+Complexity Analysis:
+Time Complexity: O(N). In the worst case each character will be visited only once by the window.
+Space complexity : constant space
+*/
+int length(string str)
+{
+	int n=str.size();
+	int l=0;
+	int r=0;
+	int le=0;
+	vector<int> c(256,-1);
+	while(r<n)
+	{
+		if(c[str[r]] != -1)
+			l= max(c[str[r]]+1,l);
+
+		c[str[r]]=r;
+		le= max(le,r-l+1);
+		r++;
+
+	}
+	return le;
+}
+
 
 int main() 
 {
